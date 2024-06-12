@@ -39,5 +39,5 @@ jobs:
           app-name: 'myWebAppUsing-TOMCAT-GitHub'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9197951F5F66433C813A6A78D7314E20 }}
-          package: '*.war'
+          package: .
  
