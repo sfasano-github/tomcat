@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - myWebAppUsing-TOMCAT-GitHub
+name: Deploy Web App (TOMCAT)
 
 on:
   push:
@@ -10,44 +10,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '21'
-
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.war'
-
   deploy:
     runs-on: windows-latest
-    needs: build
+    #needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+  
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: java-app
+      - uses: actions/checkout@v4
       
+      - name: Set up Java version
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+	  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'myWebAppUsing-TOMCAT-GitHub'
           slot-name: 'Production'
-          package: '*.war'
+          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B0ECA7A5CF624926AF66E4355FD020C5 }}
+          runtime-stack: 'TOMCAT|9.0-java11'
+		      
+ 
