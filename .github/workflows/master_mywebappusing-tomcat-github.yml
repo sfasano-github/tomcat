@@ -21,8 +21,13 @@ jobs:
   
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
 	  
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure Web App (Tomcat)
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
@@ -31,5 +36,5 @@ jobs:
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B0ECA7A5CF624926AF66E4355FD020C5 }}
           runtime-stack: 'TOMCAT|9.0-java11'
-	      
+	  
  
