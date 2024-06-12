@@ -21,6 +21,13 @@ jobs:
   
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C2ACA349DE86491A81FA02A209C1F8FE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6E728249EE1C491D94C0805E6E74C46E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CAA3BA2BD01740BFBCE3A98AA1B00F91 }}
 
       - name: Set up Java version
         uses: actions/setup-java@v3
@@ -35,7 +42,7 @@ jobs:
           app-name: 'myWebAppUsing-TOMCAT-GitHub'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B0ECA7A5CF624926AF66E4355FD020C5 }}
+          #publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B0ECA7A5CF624926AF66E4355FD020C5 }}
           runtime-stack: 'TOMCAT|9.0-java11'
 	  
  
