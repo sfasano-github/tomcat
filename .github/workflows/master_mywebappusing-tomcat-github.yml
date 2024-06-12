@@ -10,17 +10,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-	  
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '21'
-	  	  
   deploy:
     runs-on: windows-latest
     #needs: build
@@ -28,7 +17,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-       id-token: write #This is required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
   
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +29,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_43C737A8F6934CDB82830EE653358C58 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2EFD4D35CD0C49908AFAED7AA32EE553 }}
 		  
-
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '21'
+	  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -49,3 +42,4 @@ jobs:
           slot-name: 'Production'
           package: .
           runtime-stack: 'TOMCAT|9.0-java11'
+ 
