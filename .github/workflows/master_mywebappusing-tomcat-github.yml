@@ -20,8 +20,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '21'
-	  
-	  
+	  	  
   deploy:
     runs-on: windows-latest
     #needs: build
@@ -49,3 +48,4 @@ jobs:
           app-name: 'myWebAppUsing-TOMCAT-GitHub'
           slot-name: 'Production'
           package: .
+          runtime-stack: 'TOMCAT|9.0-java11'
